@@ -38,7 +38,7 @@ function Cpf() {
      * @returns {*} retorna false se o cpf não for válido ou o própio se for válido
      */
     this.validateCpf = function (string) {
-        const rawCpf = string.replace(/[-.]/g, '');
+        const rawCpf = string.replace(/\D+/g, '');
 
         if (isNaN(rawCpf) || rawCpf.length !== 11) {
             return false;
