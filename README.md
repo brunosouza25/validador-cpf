@@ -1,4 +1,4 @@
-# Cronômetro
+# Validador de CPFs
 
 <h3>Pequeno projeto de Validardor de CPFs para praticar JavaScript orientado a objetos</h3>
 
