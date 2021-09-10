@@ -1,15 +1,36 @@
 const cpf = new Cpf();
 const result = document.getElementById('result');
+const input = document.getElementById('cpf');
+
+document.getElementById('generate').addEventListener('click', () => {
+    input.value = '';
+    input.value = cpf.cpfGenerator();
+});
+
+//TODO
+//FAZER A COPIA DO CPF
+document.getElementById('copy').addEventListener('click', () => {
+    input.select();
+    document.execCommand('copy');
+});
 
 document.getElementById('validate').addEventListener('click', () => {
-    writeResultCpf(cpf.validateCpf(document.getElementById('cpf').value));
+    const result = cpf.verificationNumbers(
+        document.getElementById('cpf').value
+    );
+    writeResultCpf(
+        cpf.verificationNumbers(document.getElementById('cpf').value) ==
+            document.getElementById('cpf').value
+    );
 });
 
 document.getElementById('cpf').addEventListener('keypress', (event) => {
     if (event.key !== 'Enter') {
         return;
     }
-    writeResultCpf(cpf.validateCpf(document.getElementById('cpf').value));
+    writeResultCpf(
+        cpf.verificationNumbers(document.getElementById('cpf').value)
+    );
 });
 
 //Objeto CPF
@@ -22,13 +43,21 @@ function Cpf() {
         get: function () {
             return cpf;
         },
+        set: function (string) {
+            const cpfValidate = this.verificationNumbers(string);
+
+            if (cpfValidate != string) {
+                console.log(cpfValidate);
+
+                return false;
+            }
+            console.log(cpfValidate);
+        },
     });
 }
 
-//TODO
-//Necessita verificar o porque a Setter do CPF não consegue chamar a função "verificationNumbers" do prototype
 Cpf.prototype.verificationNumbers = function (string) {
-    let rawCpf = String(string).split('');
+    let rawCpf = String(string).slice(0, 9).split('');
     let count = 10;
     let total = rawCpf.reduce((sum, item) => {
         sum += count * item;
@@ -50,7 +79,20 @@ Cpf.prototype.verificationNumbers = function (string) {
 
     digit = 11 - (total % 11) > 9 ? 0 : 11 - (total % 11);
     rawCpf.push(digit);
+
     return rawCpf.join('');
+};
+
+Cpf.prototype.cpfGenerator = function () {
+    let rawCpf = [];
+
+    for (let i = 0; i <= 9; i++) {
+        rawCpf.push(Math.floor(Math.random() * 10));
+    }
+
+    const newCpf = this.verificationNumbers(rawCpf.join(''));
+
+    return newCpf;
 };
 
 //70548445052
