@@ -10,8 +10,7 @@ document.getElementById('generate').addEventListener('click', () => {
 //TODO
 //FAZER A COPIA DO CPF
 document.getElementById('copy').addEventListener('click', () => {
-    input.select();
-    document.execCommand('copy');
+    navigator.clipboard.writeText(input.value);
 });
 
 document.getElementById('validate').addEventListener('click', () => {
