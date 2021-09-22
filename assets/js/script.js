@@ -14,7 +14,8 @@ class Cpf {
     }
 
     static verificationNumbers(string) {
-        let rawCpf = String(string).slice(0, 9).split('');
+        let rawCpf = String(string.replace(/\D+/g, '')).slice(0, 9).split('');
+
         const itsSequence = this.itsASequence(rawCpf.join(''));
 
         if (itsSequence) {
@@ -69,7 +70,7 @@ document.getElementById('copy').addEventListener('click', () => {
 document.getElementById('validate').addEventListener('click', () => {
     writeResultCpf(
         Cpf.verificationNumbers(document.getElementById('cpf').value) ==
-            document.getElementById('cpf').value
+            document.getElementById('cpf').value.replace(/\D+/g, '')
     );
 });
 
